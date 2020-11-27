@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gesture</title>
+</head>
+<body>
+    <div id="my" style="transform: translate(0px, 0px);width: 100px;height: 100px;background: lightgreen;"></div>
+</body>
+<script src="./gesture.js"></script>
+<script>
+    window.addEventListener("contextmenu", event=>event.preventDefault());
+    document.addEventListener("selectstart", event=>event.preventDefault());
+    document.addEventListener("touchmove", event=> event.preventDefault(),{passive:false});
+
+    let x =0, y=0;
+
+    let my = document.getElementById("my");
+    enableGesture(my);
+
+    my.addEventListener("pan", event=>{
+        console.log(x + event.clientX - event.startY);
+        console.log(y + event.clientY - event.startY);
+        my.style.transform = `translate(${x + event.clientX - event.startY}px, ${y + event.clientY - event.startY}px)`;
+    })
+
+    my.addEventListener("panend", event=>{
+        y = (x + event.clientX - event.startX);
+        y = (y + event.clientY - event.startY);
+    })
+</script>
+</html>
